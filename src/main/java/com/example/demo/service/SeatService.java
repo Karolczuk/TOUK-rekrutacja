@@ -35,8 +35,9 @@ public class SeatService {
             throw new MyException("add seat exception - seat object is null");
         }
         return command.getSeatDto().stream().map(seats -> {
-
             Repertoire repertoire = validateReservation(seats);
+            checkSeat(seats.getColumnNumber(), seats.getRowNumber(), repertoire.getRoom().getColumnCount(), repertoire.getRoom().getRowCount());
+
             Seat seat = Seat.builder().columnCount(seats.getColumnNumber())
                     .rowCount(seats.getRowNumber())
                     .build();
@@ -53,6 +54,19 @@ public class SeatService {
         })
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
+    }
+
+    private void checkSeat(Integer columnNumber, Integer rowNumber, Integer maxColumn, Integer maxRow) {
+        if (columnNumber > maxColumn || rowNumber > maxRow) {
+            throw new MyException("Column or row doesn't exist in room ");
+        }
+        boolean present = seatRepository.findAll().stream().map(Mapper::fromSeatToSeatDto)
+                .filter(s -> s.getColumnNumber() == columnNumber + 2)
+                .findAny()
+                .isPresent();
+        if (present) {
+            throw new MyException("You don't reserve seat. There cannot be a single place left over in a row between two already reserved places.");
+        }
     }
 
     private Repertoire validateReservation(SeatDto seats) {
@@ -77,8 +91,8 @@ public class SeatService {
 
         User user = Mapper.fromUserDtoToUser(userDto);
 
-        List<Seat> seats = seatRepository.findByUserIdAndIsPayed(user.getId(),false);
-        seats.stream().peek(t -> t.setIsPayed(true)).forEach(t->seatRepository.save(t));
+        List<Seat> seats = seatRepository.findByUserIdAndIsPayed(user.getId(), false);
+        seats.stream().peek(t -> t.setIsPayed(true)).forEach(t -> seatRepository.save(t));
 
         List<SeatDto> seatDtos = validReservationTime(seats);
         if (!seatDtos.isEmpty()) {
