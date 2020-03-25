@@ -8,6 +8,6 @@ zakup biletów - http://localhost:8080/user/pay
 
 znajdz filmy w podanm przedziale czasowym : http://localhost:8080/seats/findSeats/13
 
-znajdzi filmy na dany dzień i czas: 
+znajdzi filmy na dany dzień i czas: http://localhost:8080/repertoire
 
 
