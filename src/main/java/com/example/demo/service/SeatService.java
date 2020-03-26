@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -36,10 +37,10 @@ public class SeatService {
         }
         return command.getSeatDto().stream().map(seats -> {
             Repertoire repertoire = validateReservation(seats);
-            checkSeat(seats.getColumnNumber(), seats.getRowNumber(), repertoire.getRoom().getColumnCount(), repertoire.getRoom().getRowCount());
+            checkSeat(seats.getColumnCount(), seats.getRowCount(), repertoire.getRoom().getColumnMax(), repertoire.getRoom().getRowMax());
 
-            Seat seat = Seat.builder().columnCount(seats.getColumnNumber())
-                    .rowCount(seats.getRowNumber())
+            Seat seat = Seat.builder().columnCount(seats.getColumnCount())
+                    .rowCount(seats.getRowCount())
                     .build();
             User user = userRepository.findByNameAndSurname(command.getName(), command.getSurname())
                     .orElseThrow(() -> new EntityNotFoundException());
@@ -61,7 +62,7 @@ public class SeatService {
             throw new MyException("Column or row doesn't exist in room ");
         }
         boolean present = seatRepository.findAll().stream().map(Mapper::fromSeatToSeatDto)
-                .filter(s -> s.getColumnNumber() == columnNumber + 2)
+                .filter(s -> s.getColumnCount() == columnNumber + 2)
                 .findAny()
                 .isPresent();
         if (present) {
@@ -80,7 +81,7 @@ public class SeatService {
             throw new MyException("You don't reserve seat. You must booked seat at latest 15 minutes before the screening begins ");
         }
         Optional<Seat> optionalSeat = seatRepository.findByRepertoireDateAndRepertoireTimeAndColumnCountAndRowCountAndRepertoireMovieId(
-                repertoire.getDate(), repertoire.getTime(), seats.getColumnNumber(), seats.getRowNumber(), repertoire.getMovie().getId());
+                repertoire.getDate(), repertoire.getTime(), seats.getColumnCount(), seats.getRowCount(), repertoire.getMovie().getId());
         if (optionalSeat.isPresent()) {
             throw new MyException("Someone reserved this seat");
         }
@@ -113,4 +114,31 @@ public class SeatService {
                 .collect(Collectors.toList());
     }
 
+    public List<SeatDto> findReservedSeats(Long repertoireId) {
+        return seatRepository.findByRepertoireId(repertoireId)
+                .stream()
+                .map(Mapper::fromSeatToSeatDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<SeatDto> findAvailableSeats(Long repertoireId) {
+        List<Seat> repertoire = seatRepository.findByRepertoireId(repertoireId);
+        Optional<Repertoire> optionalRepertoire = repertoireRepository.findById(repertoireId);
+        Integer columnCount = optionalRepertoire.get().getRoom().getColumnMax();
+        Integer rowCount = optionalRepertoire.get().getRoom().getRowMax();
+        List<SeatDto> seats = new ArrayList<>();
+
+        for (int i = 1; i <= rowCount; i++) {
+            for (int j = 1; j <= columnCount; j++) {
+                SeatDto seat = SeatDto.builder().rowCount(i).columnCount(j).repertoireDto(Mapper.fromRepertoireToRepertoireDto(optionalRepertoire.get())).build();
+                if (!repertoire.contains(seat)) {
+                    seat.setColumnCount(j);
+                    seat.setRowCount(i);
+                    seats.add(seat);
+                }
+            }
+        }
+        return seats;
+    }
 }
+

@@ -20,8 +20,8 @@ public class Room {
     private Long id;
 
     private String name;
-    private Integer rowCount;
-    private Integer columnCount;
+    private Integer rowMax;
+    private Integer columnMax;
 
     @OneToMany(mappedBy = "room")
     @EqualsAndHashCode.Exclude

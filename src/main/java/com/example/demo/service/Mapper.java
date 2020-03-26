@@ -54,11 +54,9 @@ public interface Mapper {
     static SeatDto fromSeatToSeatDto(Seat seat) {
         return seat == null ? null : SeatDto.builder()
                 .id(seat.getId())
-                .columnNumber(seat.getColumnCount())
-                .rowNumber(seat.getRowCount())
-                .ticketTypes(seat.getTicketTypes())
                 .columnCount(seat.getColumnCount())
-                .rowNumber(seat.getRowCount())
+                .rowCount(seat.getRowCount())
+                .ticketTypes(seat.getTicketTypes())
                 .repertoireDto(seat.getRepertoire() == null ? null : fromRepertoireToRepertoireDto(seat.getRepertoire()))
                 .build();
     }
@@ -67,8 +65,8 @@ public interface Mapper {
     static Seat fromSeatDtoToSeat(SeatDto seatDto) {
         return seatDto == null ? null : Seat.builder()
                 .id(seatDto.getId())
-                .columnCount(seatDto.getColumnNumber())
-                .rowCount(seatDto.getRowNumber())
+                .columnCount(seatDto.getColumnCount())
+                .rowCount(seatDto.getRowCount())
                 .build();
     }
 

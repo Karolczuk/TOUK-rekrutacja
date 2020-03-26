@@ -26,4 +26,14 @@ public class SeatController {
     public Double payTicket(@RequestBody UserDto userDto) {
         return seatService.pay(userDto);
     }
+
+    @GetMapping("/findSeats/{repertoireId}")
+    public List<SeatDto> findAvailableSeats(@PathVariable Long repertoireId) {
+        return seatService.findAvailableSeats(repertoireId);
+    }
+
+    @GetMapping("/findReservedSeats/{repertoireId}")
+    public List<SeatDto> findReservedSeats(@PathVariable Long repertoireId) {
+        return seatService.findReservedSeats(repertoireId);
+    }
 }

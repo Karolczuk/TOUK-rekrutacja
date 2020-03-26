@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 public class SeatDto {
 
     private Long id;
-    private Integer columnNumber;
-    private Integer rowNumber;
+//    private Integer columnNumber;
+//    private Integer rowNumber;
     private RepertoireDto repertoireDto;
     private TicketType ticketTypes;
     private Integer columnCount;
