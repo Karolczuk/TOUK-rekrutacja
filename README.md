@@ -1,13 +1,28 @@
 # TOUK-rekrutacja.
-Aby uruchomić program, należy utworzyć bazę danych. W pliku appication.properties znajdują się ustawienia bazy danych.
-System jest inicjalizowany przykładowymi danymi,które są w pliku data.sql
+Aby uruchomić program, należy utworzyć bazę danych ticket_db. W pliku appication.properties znajdują się ustawienia bazy danych.
+System jest inicjalizowany przykładowymi danymi,które są w pliku data.sql. 
 
-rezerwacja biletów: http://localhost:8080/seats/reserve
+Użyte technologie:
+Java 11, Spring Boot, Spring Data
+
+Baza dancch: MySQL
+
+Endpointy:
+
+rezerwacja biletów: http://localhost:8080/seats/reserve 
 
 zakup biletów - http://localhost:8080/user/pay
 
-znajdz filmy w podanm przedziale czasowym : http://localhost:8080/seats/findSeats/13
+filmy w podanym przedziale czasowym : http://localhost:8080/seats/findSeats/13
 
-znajdzi filmy na dany dzień i czas: http://localhost:8080/repertoire
+filmy na dany dzień i czas: http://localhost:8080/repertoire
+
+dodawanie użytkownika : http://localhost:8080/user
+
+dostępne miejsca: http://localhost:8080/seats/findSeats/{repertoireId}
+
+zajęte miejsca: http://localhost:8080/seats/findReservedSeats/{repertoireId}
+
+
 
 
