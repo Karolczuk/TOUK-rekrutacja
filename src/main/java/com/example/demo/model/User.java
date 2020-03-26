@@ -23,10 +23,10 @@ public class User {
     @Column(unique = true)
     private String username;
 
-    @Pattern(regexp = "[A-ZŚĆŃŁŻĄ][a-z-A-ZśćóńłżźąĄ]{2,}", message = "Name should contains at least 3 letters")
+    @Pattern(regexp = "[A-ZĄÓĘŁĆŚĆŃŁŻŻ][a-z-A-ZęśćóńłżźąĄ]{2,}", message = "Name should contains at least 3 letters")
     private String name;
 
-    @Pattern(regexp = "[A-ZŚĆŁŃŻĄ][a-z-A-ZśćńółżźąĄ]+(_[A-ZŻĄ][a-z-A-ZśćńółżźąĄ]+){0,1}", message = "Surname should contains at least 3 letters")
+    @Pattern(regexp = "[A-ZĄĘÓŁĆŚĆŃŁŻŻ][a-z-A-ZęśćńółżźąĄ]+(_[A-ZŻĄ][a-z-A-ZęśćńółżźąĄ]+){0,1}", message = "Surname should contains at least 3 letters")
     private String surname;
 
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user")
