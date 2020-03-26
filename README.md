@@ -9,7 +9,7 @@ Baza dancch: MySQL
 
 Endpointy:
 
-rezerwacja biletów: http://localhost:8080/seats/reserve
+rezerwacja biletów: http://localhost:8080/seats/reserve 
 
 zakup biletów - http://localhost:8080/user/pay
 
@@ -17,11 +17,11 @@ filmy w podanym przedziale czasowym : http://localhost:8080/seats/findSeats/13
 
 filmy na dany dzień i czas: http://localhost:8080/repertoire
 
-dostępne miejsca: http://localhost:8080/seats/findSeats/13
-
-zajęte miejsca: http://localhost:8080/seats/findReservedSeats/13
-
 dodawanie użytkownika : http://localhost:8080/user
+
+dostępne miejsca: http://localhost:8080/seats/findSeats/{repertoireId}
+
+zajęte miejsca: http://localhost:8080/seats/findReservedSeats/{repertoireId}
 
 
 
