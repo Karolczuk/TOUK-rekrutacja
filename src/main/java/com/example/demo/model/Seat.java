@@ -40,5 +40,5 @@ public class Seat {
     @Enumerated(EnumType.STRING)
     private TicketType ticketTypes;
 
-    private Boolean isPayed; // czy potrzcbne
+    private Boolean isPayed;
 }

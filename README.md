@@ -13,9 +13,9 @@ rezerwacja biletów: http://localhost:8080/seats/reserve
 
 zakup biletów - http://localhost:8080/user/pay
 
-filmy w podanym przedziale czasowym : http://localhost:8080/seats/findSeats/13
+repertuar w podanym przedziale czasowym : http://localhost:8080/repertoire/findAll
 
-filmy na dany dzień i czas: http://localhost:8080/repertoire
+repertuar o konkretnym dniu i czasie : http://localhost:8080/repertoire
 
 dodawanie użytkownika : http://localhost:8080/user
 
